@@ -4,9 +4,12 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
+# Update npm to latest version to avoid internal errors
+RUN npm install -g npm@latest
+
 # Install dependencies first (for better caching)
 COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm install --omit=dev && npm cache clean --force
 
 # Copy source code
 COPY . .
