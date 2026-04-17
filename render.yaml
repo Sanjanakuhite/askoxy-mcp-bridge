@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: askoxy-mcp-bridge
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: LOG_LEVEL
+        value: info
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_REALTIME_MODEL
+        value: gpt-realtime-1
+      - key: OPENAI_REALTIME_VOICE
+        value: alloy
+      - key: SEARCH_URL
+        value: https://meta.oxyloans.com/api/product-service/dynamicSearch
+      - key: OFFERS_URL
+        value: https://meta.oxyloans.com/api/product-service/getComboActiveInfo
+      - key: ADD_TO_CART_URL
+        value: https://meta.oxyloans.com/api/cart-service/cart/addAndIncrementCart
+      - key: GET_CART_URL
+        value: https://meta.oxyloans.com/api/cart-service/cart/userCartInfo
+      - key: ORDER_URL
+        value: https://meta.oxyloans.com/api/order-service/order/placeOrder
+      - key: SEARCH_REDIRECT_BASE
+        value: /main/search-main?q=
+      - key: OFFERS_REDIRECT
+        value: /offers
+      - key: CART_REDIRECT
+        value: /main/mycart
+      - key: ORDER_REDIRECT
+        value: /thank-you
+    healthCheckPath: /health
+    plan: starter
