@@ -1,11 +1,11 @@
-# Use Node.js LTS version
-FROM node:18-alpine
+# Use Node.js 20 LTS Alpine (supports npm 10+)
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Update npm to latest version to avoid internal errors
-RUN npm install -g npm@latest
+# Update npm to latest stable version compatible with Node 20
+RUN npm install -g npm@10 --legacy-peer-deps
 
 # Install dependencies first (for better caching)
 COPY package*.json ./
