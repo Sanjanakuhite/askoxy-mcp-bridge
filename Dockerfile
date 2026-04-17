@@ -11,6 +11,10 @@ RUN npm ci --only=production && npm cache clean --force
 # Copy source code
 COPY . .
 
+# Copy health check script and make it executable
+COPY healthcheck.sh /app/healthcheck.sh
+RUN chmod +x /app/healthcheck.sh
+
 # Create logs directory
 RUN mkdir -p logs
 
@@ -27,7 +31,7 @@ EXPOSE 3001
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3001/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+  CMD /app/healthcheck.sh
 
-# Start the application
-CMD ["npm", "start"]
+# Start the application (run Node directly, Render manages the process)
+CMD ["node", "server.js"]
